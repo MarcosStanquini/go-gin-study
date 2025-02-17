@@ -1,0 +1,2 @@
+Lembrar:
+    Se quiser que a função seja visivel para  os outros pacotes, colocar  a primeira letra da função com MAIUSCULA
