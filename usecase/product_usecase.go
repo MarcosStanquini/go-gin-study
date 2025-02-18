@@ -9,7 +9,7 @@ type ProductUseCase struct {
 	repository repository.ProductRepository 
 }
 
-func newProductUseCase(repo repository.ProductRepository) ProductUseCase {
+func NewProductUseCase(repo repository.ProductRepository) ProductUseCase {
 	return ProductUseCase{
 	repository: repo,
 	}

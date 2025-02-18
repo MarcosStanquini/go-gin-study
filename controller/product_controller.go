@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ProductController struct {  // Alterado para seguir a convenção de Go
+type ProductController struct {  
 	productUseCase usecase.ProductUseCase
 }
 
-func NewProductController(usecase usecase.ProductUseCase) ProductController {  // Alterado para seguir a convenção de Go
+func NewProductController(usecase usecase.ProductUseCase) ProductController {  
 	return ProductController{
 		productUseCase: usecase,
 	}
