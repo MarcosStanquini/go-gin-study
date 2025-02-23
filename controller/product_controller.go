@@ -5,6 +5,7 @@ import (
 	"go-api/usecase"
 	"net/http"
 	"strconv"
+	"database/sql"
 
 	"github.com/gin-gonic/gin"
 )
@@ -76,3 +77,40 @@ func (p *ProductController) GetProductsByID(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, product)
 }
+
+func (p *ProductController) DeleteProduct(ctx *gin.Context) {
+    id := ctx.Param("productId")
+    if id == "" {
+        response := model.Response{
+            Message: "Id do produto não pode ser nulo",
+        }
+        ctx.JSON(http.StatusBadRequest, response)
+        return
+    }
+
+    productID, err := strconv.Atoi(id)
+    if err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": "Id do produto precisa ser um número"})
+        return
+    }
+
+    err = p.productUseCase.DeleteProduct(productID)
+    if err != nil {
+        if err == sql.ErrNoRows {
+            response := model.Response{
+                Message: "Produto não encontrado na base de dados",
+            }
+            ctx.JSON(http.StatusNotFound, response)
+        } else {
+            ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        }
+        return
+    }
+
+    response := model.Response{
+        Message: "Produto deletado com sucesso",
+    }
+    ctx.JSON(http.StatusOK, response)
+}
+
+
