@@ -6,12 +6,12 @@ import (
 )
 
 type ProductUseCase struct {
-	repository repository.ProductRepository 
+	repository repository.ProductRepository
 }
 
 func NewProductUseCase(repo repository.ProductRepository) ProductUseCase {
 	return ProductUseCase{
-	repository: repo,
+		repository: repo,
 	}
 }
 
@@ -22,8 +22,16 @@ func (pu *ProductUseCase) GetProducts() ([]model.Product, error) {
 func (pu *ProductUseCase) CreateProduct(product model.Product) (model.Product, error) {
 	productID, err := pu.repository.CreateProduct(product)
 	if err != nil {
-		 return model.Product{}, err
+		return model.Product{}, err
 	}
 	product.ID = productID
+	return product, nil
+}
+
+func (pu *ProductUseCase) GetProductsByID(id_product int) (*model.Product, error) {
+	product, err := pu.repository.GetProductsByID(id_product)
+	if err != nil {
+		return nil, err
+	}
 	return product, nil
 }
